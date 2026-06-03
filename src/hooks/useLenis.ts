@@ -15,12 +15,23 @@ export function useLenis() {
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      touchMultiplier: 2,
+      // Keep native scroll on touch devices
+      touchMultiplier: 0,
     });
 
     lenisRef.current = lenis;
 
+    // Sync Lenis scroll position with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
+
+    // Sync Lenis with Framer Motion's useScroll by dispatching native scroll events.
+    // Framer Motion listens to the native 'scroll' event on window,
+    // so we fire a synthetic one whenever Lenis updates scroll position.
+    lenis.on('scroll', () => {
+      // Framer Motion reads from window.scrollY, which Lenis already sets.
+      // Dispatching a scroll event ensures FM's useScroll picks it up.
+      window.dispatchEvent(new Event('scroll'));
+    });
 
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);

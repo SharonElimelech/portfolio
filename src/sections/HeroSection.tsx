@@ -1,6 +1,16 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+} from 'framer-motion';
+import InteractiveParticles from '../components/InteractiveParticles';
+
+// ── Three.js shaders ──
 
 const SAKURA_VERTEX_SHADER = `
   attribute float alpha;
@@ -73,15 +83,59 @@ function createSakuraSystem(scene: THREE.Scene, count: number, colors: number[][
   return { points, material };
 }
 
+// ── Main component ──
+
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const pillsRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const frameRef = useRef<number>(0);
 
+  // ── Mouse tracking for 3D tilt ──
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Spring-smoothed mouse values for organic feel
+  const springConfig = { stiffness: 50, damping: 20, mass: 0.5 };
+  const smoothMouseX = useSpring(mouseX, springConfig);
+  const smoothMouseY = useSpring(mouseY, springConfig);
+
+  // Typography 3D tilt: subtle rotateX/Y based on mouse
+  const typoRotateX = useTransform(smoothMouseY, [-0.5, 0.5], [2, -2]);
+  const typoRotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-3, 3]);
+
+  // Cards 3D tilt: slightly stronger than text
+  const cardsRotateX = useTransform(smoothMouseY, [-0.5, 0.5], [3, -3]);
+  const cardsRotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-4, 4]);
+
+  // Samurai subtle mouse parallax (translate, not rotate)
+  const samuraiMoveX = useTransform(smoothMouseX, [-0.5, 0.5], [12, -12]);
+  const samuraiMoveY = useTransform(smoothMouseY, [-0.5, 0.5], [8, -8]);
+
+  // ── Scroll-linked parallax ──
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const particleY = useTransform(scrollYProgress, [0, 1], [0, 200], { ease: (t: number) => t });
+  const typographyY = useTransform(scrollYProgress, [0, 1], [0, 500], { ease: (t: number) => t });
+  const samuraiY = useTransform(scrollYProgress, [0, 1], [0, 100], { ease: (t: number) => t });
+  const cardsY = useTransform(scrollYProgress, [0, 1], [0, 400], { ease: (t: number) => t });
+  const cardsOpacity = useTransform(scrollYProgress, [0, 0.4, 0.7], [1, 1, 0], { ease: (t: number) => t });
+
+  // ── Global mouse listener for 3D tilt ──
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      // Normalize to -0.5..0.5
+      mouseX.set(e.clientX / window.innerWidth - 0.5);
+      mouseY.set(e.clientY / window.innerHeight - 0.5);
+    };
+    window.addEventListener('mousemove', onMouseMove);
+    return () => window.removeEventListener('mousemove', onMouseMove);
+  }, [mouseX, mouseY]);
+
+  // ── Three.js sakura background ──
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -103,7 +157,6 @@ export default function HeroSection() {
     canvasRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Crimson + Silver + White sakura petals
     const crimsonSakura = createSakuraSystem(scene, 200, [
       [1.0, 0.16, 0.16],
       [0.9, 0.5, 0.5],
@@ -124,11 +177,11 @@ export default function HeroSection() {
     spot2.position.set(-20, 10, 20);
     scene.add(spot2);
 
-    let mouseX = 0;
-    let mouseY = 0;
+    let camMouseX = 0;
+    let camMouseY = 0;
     const onMouseMove = (e: MouseEvent) => {
-      mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
-      mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+      camMouseX = (e.clientX - window.innerWidth / 2) * 0.001;
+      camMouseY = (e.clientY - window.innerHeight / 2) * 0.001;
     };
     document.addEventListener('mousemove', onMouseMove);
 
@@ -141,8 +194,8 @@ export default function HeroSection() {
       crimsonSakura.material.uniforms.uTime.value = elapsed;
       silverSakura.material.uniforms.uTime.value = elapsed * 0.7;
 
-      camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
-      camera.position.y += (-mouseY * 5 - camera.position.y) * 0.05;
+      camera.position.x += (camMouseX * 5 - camera.position.x) * 0.05;
+      camera.position.y += (-camMouseY * 5 - camera.position.y) * 0.05;
       camera.lookAt(scene.position);
 
       renderer.render(scene, camera);
@@ -167,7 +220,7 @@ export default function HeroSection() {
     };
   }, []);
 
-  // Text entrance animation
+  // ── GSAP entrance animations ──
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 0.8 });
@@ -194,8 +247,14 @@ export default function HeroSection() {
           { y: 40, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.8, ease: 'cubic-bezier(0.16, 1, 0.3, 1)', stagger: 0.1 },
           '-=0.3'
+        )
+        .fromTo(
+          '.hero-samurai',
+          { opacity: 0, x: 60 },
+          { opacity: 1, x: 0, duration: 1.4, ease: 'cubic-bezier(0.16, 1, 0.3, 1)' },
+          '-=1.2'
         );
-    }, textRef);
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
@@ -204,15 +263,20 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative w-full min-h-screen overflow-hidden"
-      style={{ background: '#050505' }}
+      className="relative w-full min-h-screen overflow-x-clip"
+      style={{ background: '#050505', perspective: '1200px' }}
     >
-      {/* Three.js Canvas Background - z-0 */}
-      <div
-        ref={canvasRef}
+      {/* ═══ LAYER 0 — Three.js Sakura Background (z-0) ═══ */}
+      <motion.div
         className="absolute inset-0 z-0"
-        style={{ pointerEvents: 'none' }}
-      />
+        style={{
+          pointerEvents: 'none',
+          y: particleY,
+          willChange: 'transform',
+        }}
+      >
+        <div ref={canvasRef} className="absolute inset-0" />
+      </motion.div>
 
       {/* Vignette overlay */}
       <div
@@ -222,10 +286,24 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Main content wrapper - z-10 */}
-      <div ref={textRef} className="relative z-10 w-full min-h-screen flex flex-col justify-center px-6 md:px-16 lg:px-24 pt-24">
+      {/* ═══ LAYER 1.5 — Interactive 2D Particles (z-[2]) ═══ */}
+      <div className="absolute inset-0 z-[2] pointer-events-none">
+        <InteractiveParticles className="absolute inset-0" />
+      </div>
+
+      {/* ═══ LAYER 2 — Typography + Content (z-10) with 3D tilt ═══ */}
+      <motion.div
+        className="relative z-10 w-full min-h-screen flex flex-col justify-center px-6 md:px-16 lg:px-24 pt-24 max-w-[1920px] mx-auto"
+        style={{
+          y: typographyY,
+          rotateX: typoRotateX,
+          rotateY: typoRotateY,
+          transformStyle: 'preserve-3d',
+          willChange: 'transform',
+        }}
+      >
         {/* Japanese vertical text - decorative */}
-        <div className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 hidden lg:block">
+        <div className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 hidden lg:block z-[2]">
           <span className="font-syncopate text-crimson/20 text-6xl tracking-[0.5em]" style={{ writingMode: 'vertical-rl' }}>
             サムライ
           </span>
@@ -234,7 +312,7 @@ export default function HeroSection() {
         {/* Main Title Block */}
         <div className="max-w-5xl">
           {/* Pills */}
-          <div ref={pillsRef} className="flex flex-wrap gap-3 mb-8">
+          <div className="flex flex-wrap gap-3 mb-8">
             {['Fullstack Dev', 'AI Specialist', 'CS Student'].map((pill) => (
               <span
                 key={pill}
@@ -245,11 +323,12 @@ export default function HeroSection() {
             ))}
           </div>
 
-          {/* SHARON */}
+          {/* ── SHARON ── */}
           <div className="overflow-hidden">
             <h1
-              className="hero-title-line font-syncopate text-[12vw] md:text-[10vw] lg:text-[9vw] leading-[0.9] tracking-[-0.02em] text-ghost"
+              className="hero-title-line font-syncopate leading-[0.9] tracking-[-0.02em] text-ghost"
               style={{
+                fontSize: 'clamp(2.5rem, 7vw, 7.5rem)',
                 WebkitTextStroke: '1px rgba(255, 255, 255, 0.3)',
                 textShadow: '0 0 60px rgba(255, 42, 42, 0.15)',
               }}
@@ -258,11 +337,12 @@ export default function HeroSection() {
             </h1>
           </div>
 
-          {/* ELIMELECH - offset right */}
-          <div className="overflow-hidden ml-[5vw] md:ml-[8vw]">
+          {/* ── ELIMELECH ── */}
+          <div className="overflow-hidden" style={{ marginLeft: 'clamp(0.75rem, 5vw, 6rem)' }}>
             <h1
-              className="hero-title-line font-syncopate text-[12vw] md:text-[10vw] lg:text-[9vw] leading-[0.9] tracking-[-0.02em]"
+              className="hero-title-line font-syncopate leading-[0.9] tracking-[-0.02em]"
               style={{
+                fontSize: 'clamp(2.5rem, 7vw, 7.5rem)',
                 color: 'transparent',
                 WebkitTextStroke: '2px #FF2A2A',
                 textShadow: '0 0 40px rgba(255, 42, 42, 0.3)',
@@ -275,7 +355,7 @@ export default function HeroSection() {
           {/* Subtitle */}
           <div className="mt-8 ml-1">
             <p className="hero-subtitle font-oswald text-lg md:text-xl tracking-[0.3em] text-crimson uppercase">
-              Fullstack Developer & CS Student
+              Fullstack Developer &amp; CS Student
             </p>
             <p className="hero-subtitle font-space text-sm md:text-base text-ash mt-3 max-w-lg leading-relaxed">
               Merging the aesthetics of clean code with futuristic AI technology.
@@ -283,58 +363,98 @@ export default function HeroSection() {
             </p>
           </div>
         </div>
+      </motion.div>
 
-        {/* Stats Bento Strip */}
-        <div
-          ref={statsRef}
-          className="absolute bottom-8 md:bottom-12 left-6 md:left-16 lg:left-24 right-6 md:right-16 lg:right-24"
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            {[
-              { label: 'Tech Stack', value: 'Next.js · Python · Node', icon: '◈' },
-              { label: 'Focus', value: 'AI Integration', icon: '◉' },
-              { label: 'Status', value: 'CS Student', icon: '◆' },
-              { label: 'Experience', value: 'Fullstack Dev', icon: '◇' },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="hero-stat-card glass-panel p-4 md:p-5 group hover:border-crimson/30 transition-all duration-500"
-                style={{
-                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-crimson text-xs">{stat.icon}</span>
-                  <span className="font-mono text-[9px] tracking-[0.2em] text-ash uppercase">
-                    {stat.label}
-                  </span>
-                </div>
-                <p className="font-oswald text-sm md:text-base text-ghost tracking-wide group-hover:text-crimson transition-colors duration-300">
-                  {stat.value}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Right side - Hero Ronin Image */}
-      <div className="absolute right-0 top-0 bottom-0 w-[45%] md:w-[40%] z-[5] pointer-events-none hidden lg:block">
-        <img
-          src="/images/hero-ronin.png"
-          alt=""
-          className="w-full h-full object-cover object-top"
+      {/* ═══ LAYER 3 — Samurai Figure (z-20, foreground) with breathing + parallax ═══ */}
+      <motion.div
+        className="hero-samurai absolute bottom-0 right-0 z-20 pointer-events-none
+                   w-auto max-w-[50vw] max-h-screen
+                   max-md:max-w-[70vw] max-md:opacity-25"
+        style={{
+          y: samuraiY,
+          x: samuraiMoveX,
+          maxWidth: 'min(50vw, 800px)',
+          willChange: 'transform',
+        }}
+        animate={{
+          translateY: [0, -6, 0, -3, 0],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          times: [0, 0.3, 0.5, 0.75, 1],
+        }}
+      >
+        <motion.div
+          className="w-full h-full"
           style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 30%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 30%)',
-            opacity: 0.85,
+            y: samuraiMoveY,
           }}
-        />
-      </div>
+        >
+          <img
+            src="/images/hero-ronin.png"
+            alt=""
+            className="h-screen w-auto object-contain object-bottom"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent 0%, black 25%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%)',
+            }}
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* ═══ Info Cards — Bottom strip (z-30) with 3D tilt ═══ */}
+      <motion.div
+        className="absolute bottom-8 md:bottom-12 left-6 md:left-16 lg:left-24 right-6 md:right-16 lg:right-24 z-30 max-w-[1920px] mx-auto"
+        style={{
+          y: cardsY,
+          opacity: cardsOpacity,
+          rotateX: cardsRotateX,
+          rotateY: cardsRotateY,
+          transformStyle: 'preserve-3d',
+          willChange: 'transform, opacity',
+        }}
+      >
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {[
+            { label: 'Tech Stack', value: 'Next.js · Python · Node', icon: '◈' },
+            { label: 'Focus', value: 'AI Integration', icon: '◉' },
+            { label: 'Status', value: 'CS Student', icon: '◆' },
+            { label: 'Experience', value: 'Fullstack Dev', icon: '◇' },
+          ].map((stat) => (
+            <motion.div
+              key={stat.label}
+              className="hero-stat-card glass-panel p-4 md:p-5 group transition-colors duration-300"
+              data-cursor-hover
+              whileHover={{
+                y: -4,
+                scale: 1.02,
+                boxShadow: '0 10px 30px rgba(255, 0, 0, 0.15)',
+                borderColor: 'rgba(255, 42, 42, 0.4)',
+              }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              style={{
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+              }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-crimson text-xs">{stat.icon}</span>
+                <span className="font-mono text-[9px] tracking-[0.2em] text-ash uppercase">
+                  {stat.label}
+                </span>
+              </div>
+              <p className="font-oswald text-sm md:text-base text-ghost tracking-wide group-hover:text-crimson transition-colors duration-300">
+                {stat.value}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
 
       {/* Bottom gradient fade */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-40 z-[8] pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 h-40 z-[35] pointer-events-none"
         style={{ background: 'linear-gradient(to top, #050505 0%, transparent 100%)' }}
       />
     </section>
