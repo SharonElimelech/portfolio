@@ -314,14 +314,14 @@ export default function TransmissionSection() {
                       <div className="text-ash mb-1">Connected to development environment...</div>
                       <div className="text-ash mb-4">Authentication verified. Welcome, Sharon.</div>
                       <div className="text-crimson/60">$ ls -la /projects</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  whatsapp-ai-bot/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  portfolio/</div>
                       <div className="text-ghost/40 ml-4">drwxr-xr-x  math-tutor-app/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  crm-cloud/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  lawyer-web-site/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  amdocs-job-watcher/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  bank-simulator/</div>
                       <div className="mt-4 text-crimson/60">$ cat mission.txt</div>
                       <div className="text-ghost/50 ml-4 mt-2 max-w-xs">
-                        Building the future, one commit at a time.
-                        Precision. Discipline. Excellence.
+                        Full-stack web, AI integrations, shipped to production.
+                        Discipline from Shayetet 13, applied to code.
                       </div>
                       <div className="mt-4 text-crimson animate-pulse">_</div>
                     </div>
@@ -358,7 +358,7 @@ export default function TransmissionSection() {
         <div className="cta-block text-center">
           <div className="inline-block">
             <p className="font-space text-ash text-sm mb-8">
-              Ready to build something extraordinary?
+              Open to student / junior full-stack developer roles. Let&apos;s talk.
             </p>
             <a
               href="mailto:aruitkh11@gmail.com"
@@ -383,6 +383,19 @@ export default function TransmissionSection() {
                 <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" strokeWidth="1.5" />
               </svg>
             </a>
+
+            {/* Contact details */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[11px] tracking-[0.15em] text-ash">
+              <a href="mailto:aruitkh11@gmail.com" className="hover:text-crimson transition-colors duration-300" data-cursor-hover>
+                aruitkh11@gmail.com
+              </a>
+              <span className="text-ash/30">·</span>
+              <a href="tel:+972502290875" className="hover:text-crimson transition-colors duration-300" data-cursor-hover>
+                050-2290875
+              </a>
+              <span className="text-ash/30">·</span>
+              <span>Gan Yavne, Israel</span>
+            </div>
           </div>
 
           {/* Footer credits */}
