@@ -11,75 +11,83 @@ interface ArsenalCard {
   stats: { label: string; value: string }[];
   icon: string;
   link: string;
+  featured?: boolean;
 }
 
-// Real projects from github.com/SharonElimelech
+// Projects from CV + github.com/SharonElimelech
 const arsenalCards: ArsenalCard[] = [
+  {
+    title: 'WhatsApp AI Customer-Service Bot',
+    subtitle: 'In production · Node.js · Claude API',
+    description:
+      'Production AI bot: WhatsApp messages arrive via Meta Cloud API webhooks and are answered by an LLM constrained to an approved knowledge base, with human-callback escalation through tool-calling into Make.com. Webhook signature verification, async processing and per-customer conversation state.',
+    stats: [
+      { label: 'Status', value: 'Live' },
+      { label: 'Stack', value: 'Node · Claude' },
+    ],
+    icon: '◈',
+    link: 'https://github.com/SharonElimelech',
+    featured: true,
+  },
+  {
+    title: 'Personal Portfolio',
+    subtitle: 'React · TypeScript · Vite',
+    description:
+      'This site — a fully responsive personal portfolio with a reusable, typed component architecture (40+ UI components), deployed to production on Vercel with automated builds from GitHub.',
+    stats: [
+      { label: 'Components', value: '40+' },
+      { label: 'Deploy', value: 'Vercel' },
+    ],
+    icon: '◉',
+    link: 'https://github.com/SharonElimelech/portfolio',
+  },
   {
     title: 'Math Tutor App',
     subtitle: 'PWA · JavaScript',
-    description: 'PWA for managing private lessons — students, calendar, WhatsApp payment reminders and income summaries.',
+    description:
+      'A PWA for managing private lessons — students, calendar, WhatsApp payment reminders and income summaries.',
     stats: [
       { label: 'Type', value: 'PWA' },
       { label: 'Stack', value: 'JS' },
     ],
-    icon: '◈',
+    icon: '◆',
     link: 'https://github.com/SharonElimelech/math-tutor-app',
   },
   {
     title: 'CRM Cloud',
     subtitle: 'Web App',
-    description: 'A cloud CRM web app for tracking clients and pipeline — built and deployed for real-world use.',
+    description:
+      'A cloud CRM web app for tracking clients and pipeline — built and deployed for real-world use.',
     stats: [
       { label: 'Type', value: 'CRM' },
       { label: 'Stack', value: 'Web' },
     ],
-    icon: '◉',
+    icon: '◇',
     link: 'https://github.com/SharonElimelech/crm-cloud',
   },
   {
-    title: 'Lawyer Website',
-    subtitle: 'TypeScript',
-    description: 'A polished marketing site for a law practice — responsive layout, clean typography and smooth motion.',
+    title: 'Business Websites',
+    subtitle: 'WordPress · HTML · CSS · JS',
+    description:
+      'Responsive business sites delivered end-to-end — UI design, content structure and deployment. Includes a polished site for a law practice.',
     stats: [
-      { label: 'Type', value: 'Site' },
-      { label: 'Stack', value: 'TS' },
+      { label: 'Type', value: 'Sites' },
+      { label: 'Stack', value: 'WP' },
     ],
-    icon: '◆',
+    icon: '◈',
     link: 'https://github.com/SharonElimelech/Lawyer-web-site',
   },
   {
-    title: 'Amdocs Job Watcher',
-    subtitle: 'Automation · Node.js',
-    description: 'Watches Amdocs developer job listings and notifies the moment new positions appear. Automation that hunts.',
-    stats: [
-      { label: 'Type', value: 'Bot' },
-      { label: 'Stack', value: 'Node' },
-    ],
-    icon: '◇',
-    link: 'https://github.com/SharonElimelech/amdocs-job-watcher',
-  },
-  {
-    title: 'Bank Simulator',
-    subtitle: 'Finance Logic',
-    description: 'A banking simulator modelling accounts and transactions — practising clean state and business logic.',
+    title: 'Bank Account Simulator',
+    subtitle: 'C++ · OOP',
+    description:
+      'A banking-system simulator applying object-oriented design — classes, inheritance and encapsulation.',
     stats: [
       { label: 'Type', value: 'App' },
-      { label: 'Focus', value: 'Logic' },
-    ],
-    icon: '◈',
-    link: 'https://github.com/SharonElimelech/bank-simuletor',
-  },
-  {
-    title: 'Animated Website',
-    subtitle: 'TypeScript · Motion',
-    description: 'An experiment in motion-driven web design — scroll choreography and interactive animation.',
-    stats: [
-      { label: 'Type', value: 'Site' },
-      { label: 'Stack', value: 'TS' },
+      { label: 'Stack', value: 'C++' },
     ],
     icon: '◉',
-    link: 'https://github.com/SharonElimelech/animated-website',
+    link: 'https://github.com/SharonElimelech/bank-simuletor',
   },
 ];
 
@@ -205,7 +213,7 @@ export default function ArsenalSection() {
               target="_blank"
               rel="noreferrer"
               data-cursor-hover
-              className="arsenal-card glass-heavy p-6 md:p-8 relative overflow-hidden group block"
+              className={`arsenal-card glass-heavy p-6 md:p-8 relative overflow-hidden group block ${card.featured ? 'md:col-span-2' : ''}`}
               style={{
                 transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
               }}

@@ -14,22 +14,22 @@ interface FeatureNode {
 const features: FeatureNode[] = [
   {
     title: 'Frontend',
-    description: 'React, TypeScript and Tailwind CSS — building pixel-perfect, responsive interfaces with surgical precision.',
+    description: 'React, Next.js, TypeScript, Tailwind CSS, shadcn/ui and Vite — responsive, typed, component-driven interfaces.',
     icon: '◈',
   },
   {
     title: 'Backend',
-    description: 'Node.js and Express — REST APIs, auth and data layers built to stay clean as they scale.',
+    description: 'Node.js and Express — REST APIs, webhooks and SQL databases built to stay clean as they scale.',
     icon: '◉',
   },
   {
     title: 'AI Integration',
-    description: 'Wiring apps into the OpenAI API — LLM features, smart automation and assistants embedded into real products.',
+    description: 'LLM API integration with OpenAI and Claude — tool-calling, knowledge-base constraints and production bots.',
     icon: '◆',
   },
   {
-    title: 'Shipping',
-    description: 'PWAs, Git workflows and Vercel deploys — taking projects from idea to production, not just prototype.',
+    title: 'Foundations',
+    description: 'JavaScript, Python, C++ and SQL — Data Structures & Algorithms, OOP and databases from CS at HIT.',
     icon: '◇',
   },
 ];
@@ -288,13 +288,16 @@ export default function DisciplineSection() {
           {/* Right: Content */}
           <div className="flex flex-col justify-center">
             <h2 className="discipline-title font-oswald text-4xl md:text-5xl lg:text-6xl text-ghost leading-[1.1] mb-6">
-              Merging the aesthetics of{' '}
-              <span className="text-crimson">clean code</span> with futuristic{' '}
-              <span className="text-crimson">AI technology</span>.
+              Merging{' '}
+              <span className="text-crimson">clean code</span> with practical{' '}
+              <span className="text-crimson">AI</span>.
             </h2>
             <p className="discipline-desc font-space text-ash text-base md:text-lg leading-relaxed max-w-lg">
-              Every line of code is a deliberate strike. Every component, a crafted weapon in the digital arsenal.
-              Building systems that don't just work — they dominate.
+              Third-year Computer Science student at HIT, focused on full-stack web
+              development — React and TypeScript on the front, Node.js and Express
+              behind it, with LLM APIs wired into real products. Discipline,
+              accountability and performance under pressure, carried over from
+              service in Shayetet 13.
             </p>
           </div>
         </div>

@@ -289,9 +289,12 @@ export default function HeroSection() {
       />
 
       {/* ═══ LAYER 1.5 — Interactive 2D Particles (z-[2]) ═══ */}
-      <div className="absolute inset-0 z-[2] pointer-events-none">
-        <InteractiveParticles className="absolute inset-0" />
-      </div>
+      {/* Mouse-driven — skip on touch devices (no benefit, saves CPU). */}
+      {!isMobile && (
+        <div className="absolute inset-0 z-[2] pointer-events-none">
+          <InteractiveParticles className="absolute inset-0" />
+        </div>
+      )}
 
       {/* ═══ LAYER 2 — Typography + Content (z-10) with 3D tilt ═══ */}
       <motion.div
@@ -315,7 +318,7 @@ export default function HeroSection() {
         <div className="max-w-5xl">
           {/* Pills */}
           <div className="flex flex-wrap gap-3 mb-8">
-            {['Full-Stack Dev', 'AI Integrations', '3rd-Year CS @ HIT'].map((pill) => (
+            {['Full-Stack Developer', 'AI Integrations', 'B.Sc. CS @ HIT', 'Shayetet 13 Veteran'].map((pill) => (
               <span
                 key={pill}
                 className="hero-pill px-4 py-1.5 border border-crimson/40 text-crimson font-mono text-[10px] tracking-[0.2em] uppercase bg-crimson/5"
@@ -357,26 +360,28 @@ export default function HeroSection() {
           {/* Subtitle */}
           <div className="mt-8 ml-1">
             <p className="hero-subtitle font-oswald text-lg md:text-xl tracking-[0.3em] text-crimson uppercase">
-              Full-Stack Developer &amp; CS Student @ HIT
+              Full-Stack Web Developer &amp; CS Student @ HIT
             </p>
-            <p className="hero-subtitle font-space text-sm md:text-base text-ash mt-3 max-w-lg leading-relaxed">
-              Building full-stack web apps with React, TypeScript and Node.js,
-              and wiring in AI through the OpenAI API. Clean code, real products,
-              shipped with precision and discipline.
+            <p className="hero-subtitle font-space text-sm md:text-base text-ash mt-3 max-w-xl leading-relaxed">
+              Third-year CS student building and deploying responsive web apps with
+              React, TypeScript and Node.js — including an AI customer-service bot
+              live in production. Discipline forged in Shayetet 13, applied to code.
             </p>
           </div>
         </div>
       </motion.div>
 
-      {/* ═══ LAYER 3 — Samurai Figure (z-20, foreground) with breathing + parallax ═══ */}
+      {/* ═══ LAYER 3 — Samurai Figure — foreground on desktop, ambient backdrop on mobile ═══ */}
+      {/* On mobile it drops below the text (z-[3], under z-10 content) and is height-
+          capped so it stays a contained silhouette instead of overflowing the screen. */}
       <motion.div
-        className="hero-samurai absolute bottom-0 right-0 z-20 pointer-events-none
+        className="hero-samurai absolute bottom-0 right-0 z-20 max-md:z-[3] pointer-events-none
                    w-auto max-w-[50vw] max-h-screen
-                   max-md:max-w-[70vw] max-md:opacity-25"
+                   max-md:max-w-[85vw] max-md:opacity-30"
         style={{
-          y: samuraiY,
-          x: samuraiMoveX,
-          maxWidth: 'min(50vw, 800px)',
+          y: isMobile ? undefined : samuraiY,
+          x: isMobile ? undefined : samuraiMoveX,
+          maxWidth: isMobile ? '85vw' : 'min(50vw, 800px)',
           willChange: 'transform',
         }}
         animate={{
@@ -397,8 +402,8 @@ export default function HeroSection() {
         >
           <img
             src="/images/hero-ronin.png"
-            alt=""
-            className="h-screen w-auto object-contain object-bottom"
+            alt="Cyber ronin"
+            className="h-screen w-auto object-contain object-bottom max-md:h-[58vh]"
             style={{
               maskImage: 'linear-gradient(to right, transparent 0%, black 25%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%)',
@@ -424,9 +429,9 @@ export default function HeroSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {[
             { label: 'Tech Stack', value: 'React · TypeScript · Node', icon: '◈' },
-            { label: 'Focus', value: 'OpenAI API', icon: '◉' },
-            { label: 'Status', value: '3rd-Year @ HIT', icon: '◆' },
-            { label: 'Based In', value: 'Israel', icon: '◇' },
+            { label: 'AI Focus', value: 'OpenAI & Claude APIs', icon: '◉' },
+            { label: 'Education', value: 'B.Sc. CS @ HIT', icon: '◆' },
+            { label: 'Based In', value: 'Gan Yavne, Israel', icon: '◇' },
           ].map((stat) => (
             <motion.div
               key={stat.label}
