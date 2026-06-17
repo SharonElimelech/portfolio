@@ -9,6 +9,7 @@ import {
   useSpring,
 } from 'framer-motion';
 import InteractiveParticles from '../components/InteractiveParticles';
+import { useIsMobile } from '../hooks/use-mobile';
 
 // ── Three.js shaders ──
 
@@ -86,6 +87,7 @@ function createSakuraSystem(scene: THREE.Scene, count: number, colors: number[][
 // ── Main component ──
 
 export default function HeroSection() {
+  const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -313,7 +315,7 @@ export default function HeroSection() {
         <div className="max-w-5xl">
           {/* Pills */}
           <div className="flex flex-wrap gap-3 mb-8">
-            {['Fullstack Dev', 'AI Specialist', 'CS Student'].map((pill) => (
+            {['Full-Stack Dev', 'AI Integrations', '3rd-Year CS @ HIT'].map((pill) => (
               <span
                 key={pill}
                 className="hero-pill px-4 py-1.5 border border-crimson/40 text-crimson font-mono text-[10px] tracking-[0.2em] uppercase bg-crimson/5"
@@ -355,11 +357,12 @@ export default function HeroSection() {
           {/* Subtitle */}
           <div className="mt-8 ml-1">
             <p className="hero-subtitle font-oswald text-lg md:text-xl tracking-[0.3em] text-crimson uppercase">
-              Fullstack Developer &amp; CS Student
+              Full-Stack Developer &amp; CS Student @ HIT
             </p>
             <p className="hero-subtitle font-space text-sm md:text-base text-ash mt-3 max-w-lg leading-relaxed">
-              Merging the aesthetics of clean code with futuristic AI technology.
-              Building high-performance web architectures with precision and discipline.
+              Building full-stack web apps with React, TypeScript and Node.js,
+              and wiring in AI through the OpenAI API. Clean code, real products,
+              shipped with precision and discipline.
             </p>
           </div>
         </div>
@@ -405,23 +408,25 @@ export default function HeroSection() {
       </motion.div>
 
       {/* ═══ Info Cards — Bottom strip (z-30) with 3D tilt ═══ */}
+      {/* On mobile the cards flow in-document (relative) so they never overlap
+          the centered title/subtitle; on md+ they overlay the hero bottom. */}
       <motion.div
-        className="absolute bottom-8 md:bottom-12 left-6 md:left-16 lg:left-24 right-6 md:right-16 lg:right-24 z-30 max-w-[1920px] mx-auto"
+        className="relative md:absolute md:bottom-12 md:left-16 lg:left-24 md:right-16 lg:right-24 z-30 max-w-[1920px] mx-auto px-6 md:px-0 mt-12 pb-12 md:mt-0 md:pb-0"
         style={{
-          y: cardsY,
-          opacity: cardsOpacity,
-          rotateX: cardsRotateX,
-          rotateY: cardsRotateY,
+          y: isMobile ? undefined : cardsY,
+          opacity: isMobile ? undefined : cardsOpacity,
+          rotateX: isMobile ? undefined : cardsRotateX,
+          rotateY: isMobile ? undefined : cardsRotateY,
           transformStyle: 'preserve-3d',
           willChange: 'transform, opacity',
         }}
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {[
-            { label: 'Tech Stack', value: 'Next.js · Python · Node', icon: '◈' },
-            { label: 'Focus', value: 'AI Integration', icon: '◉' },
-            { label: 'Status', value: 'CS Student', icon: '◆' },
-            { label: 'Experience', value: 'Fullstack Dev', icon: '◇' },
+            { label: 'Tech Stack', value: 'React · TypeScript · Node', icon: '◈' },
+            { label: 'Focus', value: 'OpenAI API', icon: '◉' },
+            { label: 'Status', value: '3rd-Year @ HIT', icon: '◆' },
+            { label: 'Based In', value: 'Israel', icon: '◇' },
           ].map((stat) => (
             <motion.div
               key={stat.label}

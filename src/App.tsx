@@ -1,9 +1,11 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { Routes, Route } from 'react-router';
 import Home from './pages/Home';
 import { useLenis } from './hooks/useLenis';
 
 export default function App() {
+  // useLenis already drives lenis.raf via gsap.ticker — no extra RAF loop here,
+  // a second loop would advance Lenis twice per frame (doubled scroll speed / jank).
   const lenisRef = useLenis();
 
   const handleNavigate = useCallback((target: string) => {
@@ -13,20 +15,6 @@ export default function App() {
       const el = document.querySelector(target);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [lenisRef]);
-
-  // Sync Lenis with GSAP ScrollTrigger
-  useEffect(() => {
-    const lenis = lenisRef.current;
-    if (!lenis) return;
-
-    let rafId: number;
-    function raf(time: number) {
-      lenis!.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
-    return () => cancelAnimationFrame(rafId);
   }, [lenisRef]);
 
   return (

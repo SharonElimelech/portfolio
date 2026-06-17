@@ -10,48 +10,76 @@ interface ArsenalCard {
   description: string;
   stats: { label: string; value: string }[];
   icon: string;
+  link: string;
 }
 
+// Real projects from github.com/SharonElimelech
 const arsenalCards: ArsenalCard[] = [
   {
-    title: 'Unique Architecture',
-    subtitle: 'Scalable Systems',
-    description: 'Building modular, maintainable systems that scale from prototype to production without breaking stride.',
+    title: 'Math Tutor App',
+    subtitle: 'PWA · JavaScript',
+    description: 'PWA for managing private lessons — students, calendar, WhatsApp payment reminders and income summaries.',
     stats: [
-      { label: 'Components', value: '50+' },
-      { label: 'Uptime', value: '99.9%' },
+      { label: 'Type', value: 'PWA' },
+      { label: 'Stack', value: 'JS' },
     ],
     icon: '◈',
+    link: 'https://github.com/SharonElimelech/math-tutor-app',
   },
   {
-    title: 'Elite UI/UX',
-    subtitle: 'Tailwind & Framer Motion',
-    description: 'Crafting interfaces that feel alive. Every animation, every transition — engineered for delight.',
+    title: 'CRM Cloud',
+    subtitle: 'Web App',
+    description: 'A cloud CRM web app for tracking clients and pipeline — built and deployed for real-world use.',
     stats: [
-      { label: 'Animations', value: '120+' },
-      { label: 'Components', value: '40+' },
+      { label: 'Type', value: 'CRM' },
+      { label: 'Stack', value: 'Web' },
     ],
     icon: '◉',
+    link: 'https://github.com/SharonElimelech/crm-cloud',
   },
   {
-    title: 'Server-Side Dominance',
-    subtitle: 'Node.js & Python',
-    description: 'RESTful APIs, real-time WebSocket servers, and microservices built for maximum throughput.',
+    title: 'Lawyer Website',
+    subtitle: 'TypeScript',
+    description: 'A polished marketing site for a law practice — responsive layout, clean typography and smooth motion.',
     stats: [
-      { label: 'APIs Built', value: '30+' },
-      { label: 'Latency', value: '<50ms' },
+      { label: 'Type', value: 'Site' },
+      { label: 'Stack', value: 'TS' },
     ],
     icon: '◆',
+    link: 'https://github.com/SharonElimelech/Lawyer-web-site',
   },
   {
-    title: 'Next-Gen Ready',
-    subtitle: 'AI Implementations',
-    description: 'LLM integration, neural network APIs, and intelligent automation — the future is now.',
+    title: 'Amdocs Job Watcher',
+    subtitle: 'Automation · Node.js',
+    description: 'Watches Amdocs developer job listings and notifies the moment new positions appear. Automation that hunts.',
     stats: [
-      { label: 'Models', value: '10+' },
-      { label: 'Integrations', value: '15+' },
+      { label: 'Type', value: 'Bot' },
+      { label: 'Stack', value: 'Node' },
     ],
     icon: '◇',
+    link: 'https://github.com/SharonElimelech/amdocs-job-watcher',
+  },
+  {
+    title: 'Bank Simulator',
+    subtitle: 'Finance Logic',
+    description: 'A banking simulator modelling accounts and transactions — practising clean state and business logic.',
+    stats: [
+      { label: 'Type', value: 'App' },
+      { label: 'Focus', value: 'Logic' },
+    ],
+    icon: '◈',
+    link: 'https://github.com/SharonElimelech/bank-simuletor',
+  },
+  {
+    title: 'Animated Website',
+    subtitle: 'TypeScript · Motion',
+    description: 'An experiment in motion-driven web design — scroll choreography and interactive animation.',
+    stats: [
+      { label: 'Type', value: 'Site' },
+      { label: 'Stack', value: 'TS' },
+    ],
+    icon: '◉',
+    link: 'https://github.com/SharonElimelech/animated-website',
   },
 ];
 
@@ -157,7 +185,7 @@ export default function ArsenalSection() {
           <div className="flex items-center gap-4 mb-4">
             <span className="w-2 h-2 rounded-full bg-crimson animate-glow-pulse" />
             <span className="font-mono text-[10px] tracking-[0.3em] text-crimson uppercase">
-              Core Systems
+              Selected Work
             </span>
           </div>
           <div className="flex items-center gap-6">
@@ -171,9 +199,13 @@ export default function ArsenalSection() {
         {/* Bento Grid */}
         <div className="arsenal-grid grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-6xl mx-auto">
           {arsenalCards.map((card, i) => (
-            <div
+            <a
               key={card.title}
-              className="arsenal-card glass-heavy p-6 md:p-8 relative overflow-hidden group"
+              href={card.link}
+              target="_blank"
+              rel="noreferrer"
+              data-cursor-hover
+              className="arsenal-card glass-heavy p-6 md:p-8 relative overflow-hidden group block"
               style={{
                 transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
@@ -247,7 +279,7 @@ export default function ArsenalSection() {
                   ))}
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
