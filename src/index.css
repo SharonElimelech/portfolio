@@ -56,6 +56,14 @@
     cursor: none;
   }
 
+  /* Custom cursor only renders on devices with a fine pointer.
+     Restore the native cursor on touch screens. */
+  @media (pointer: coarse) {
+    body {
+      cursor: auto;
+    }
+  }
+
   ::selection {
     background-color: var(--color-crimson);
     color: #000;

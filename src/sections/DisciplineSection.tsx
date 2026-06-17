@@ -13,23 +13,23 @@ interface FeatureNode {
 
 const features: FeatureNode[] = [
   {
-    title: 'Frontend Mastery',
-    description: 'React, Next.js, Tailwind CSS — Crafting pixel-perfect, responsive interfaces with surgical precision.',
+    title: 'Frontend',
+    description: 'React, TypeScript and Tailwind CSS — building pixel-perfect, responsive interfaces with surgical precision.',
     icon: '◈',
   },
   {
-    title: 'Backend Engine',
-    description: 'Node.js, Python architectures — Building robust, scalable server systems that never falter.',
+    title: 'Backend',
+    description: 'Node.js and Express — REST APIs, auth and data layers built to stay clean as they scale.',
     icon: '◉',
   },
   {
     title: 'AI Integration',
-    description: 'Connecting robust logic with intelligent systems. LLMs, neural networks, and smart automation.',
+    description: 'Wiring apps into the OpenAI API — LLM features, smart automation and assistants embedded into real products.',
     icon: '◆',
   },
   {
-    title: 'Next-Gen Ready',
-    description: 'WebGL, WebAssembly, edge computing — Always on the bleeding edge of web technology.',
+    title: 'Shipping',
+    description: 'PWAs, Git workflows and Vercel deploys — taking projects from idea to production, not just prototype.',
     icon: '◇',
   },
 ];

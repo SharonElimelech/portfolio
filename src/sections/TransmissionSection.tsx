@@ -5,9 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const METRICS = [
-  { label: 'Commits', value: 180, suffix: '+', chart: 'line' },
-  { label: 'Frameworks', value: 12, suffix: '', chart: 'bar' },
-  { label: 'Projects', value: 25, suffix: '+', chart: 'area' },
+  { label: 'Public Repos', value: 8, suffix: '', chart: 'line' },
+  { label: 'Languages', value: 5, suffix: '+', chart: 'bar' },
+  { label: 'Projects Shipped', value: 6, suffix: '+', chart: 'area' },
+];
+
+const SOCIAL_LINKS = [
+  { label: 'GitHub', href: 'https://github.com/SharonElimelech' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/sharon-elimelech/' },
 ];
 
 function MiniChart({ type, active }: { type: string; active: boolean }) {
@@ -309,10 +314,10 @@ export default function TransmissionSection() {
                       <div className="text-ash mb-1">Connected to development environment...</div>
                       <div className="text-ash mb-4">Authentication verified. Welcome, Sharon.</div>
                       <div className="text-crimson/60">$ ls -la /projects</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  ai-integration/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  nextjs-architecture/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  python-backend/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  webgl-experiments/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  math-tutor-app/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  crm-cloud/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  lawyer-web-site/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  amdocs-job-watcher/</div>
                       <div className="mt-4 text-crimson/60">$ cat mission.txt</div>
                       <div className="text-ghost/50 ml-4 mt-2 max-w-xs">
                         Building the future, one commit at a time.
@@ -356,7 +361,7 @@ export default function TransmissionSection() {
               Ready to build something extraordinary?
             </p>
             <a
-              href="mailto:sharon@example.com"
+              href="mailto:aruitkh11@gmail.com"
               className="group relative inline-flex items-center gap-4 px-12 py-5 border border-crimson text-crimson font-oswald text-xl tracking-[0.2em] uppercase overflow-hidden transition-all duration-0 hover:text-black"
               data-cursor-hover
               style={{
@@ -387,18 +392,20 @@ export default function TransmissionSection() {
                 <path d="M16 0L20 12L32 16L20 20L16 32L12 20L0 16L12 12L16 0Z" fill="#FF2A2A" opacity="0.6" />
               </svg>
               <span className="font-mono text-[9px] tracking-[0.2em] text-ash/40 uppercase">
-                Sharon Elimelech © 2025
+                Sharon Elimelech © 2026
               </span>
             </div>
             <div className="flex items-center gap-6">
-              {['GitHub', 'LinkedIn', 'Twitter'].map((link) => (
+              {SOCIAL_LINKS.map((link) => (
                 <a
-                  key={link}
-                  href="#"
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
                   className="font-mono text-[9px] tracking-[0.2em] text-ash/40 uppercase hover:text-crimson transition-colors duration-300"
                   data-cursor-hover
                 >
-                  {link}
+                  {link.label}
                 </a>
               ))}
             </div>
