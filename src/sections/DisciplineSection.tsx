@@ -14,22 +14,22 @@ interface FeatureNode {
 const features: FeatureNode[] = [
   {
     title: 'Frontend',
-    description: 'React, Next.js, TypeScript, Tailwind CSS, shadcn/ui and Vite — responsive, typed, component-driven interfaces.',
+    description: 'React, Next.js (App Router, Server Components), TypeScript, Tailwind CSS, Astro and Electron — typed, component-driven interfaces.',
     icon: '◈',
   },
   {
     title: 'Backend',
-    description: 'Node.js and Express — REST APIs, webhooks and SQL databases built to stay clean as they scale.',
+    description: 'Node.js, Express and Supabase / PostgreSQL — REST APIs, verified webhooks and n8n automations built to survive real traffic.',
     icon: '◉',
   },
   {
-    title: 'AI Integration',
-    description: 'LLM API integration with OpenAI and Claude — tool-calling, knowledge-base constraints and production bots.',
+    title: 'AI Engineering',
+    description: 'Claude, Gemini and OpenAI-compatible APIs — tool-calling agents, structured outputs, multi-provider fallback and answers verified before they ship.',
     icon: '◆',
   },
   {
     title: 'Foundations',
-    description: 'JavaScript, Python, C++ and SQL — Data Structures & Algorithms, OOP and databases from CS at HIT.',
+    description: 'TypeScript, Python, C++ and SQL — data structures & algorithms, OOP, databases and operating systems from CS at HIT.',
     icon: '◇',
   },
 ];
@@ -265,7 +265,7 @@ export default function DisciplineSection() {
             <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
               <img
                 src="/images/about-samurai.png"
-                alt="Cyber Samurai"
+                alt=""
                 className="w-full h-full object-cover"
                 style={{
                   maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
@@ -293,11 +293,11 @@ export default function DisciplineSection() {
               <span className="text-crimson">AI</span>.
             </h2>
             <p className="discipline-desc font-space text-ash text-base md:text-lg leading-relaxed max-w-lg">
-              Third-year Computer Science student at HIT, focused on full-stack web
-              development — React and TypeScript on the front, Node.js and Express
-              behind it, with LLM APIs wired into real products. Discipline,
-              accountability and performance under pressure, carried over from
-              service in Shayetet 13.
+              Third-year Computer Science student at HIT and part-time full-stack
+              developer at Landly. React and TypeScript on the front, Node.js and
+              PostgreSQL behind it, with LLM agents wired into real products — kept
+              honest by knowledge-base limits, structured outputs and automatic
+              verification. Discipline and accountability carried over from Shayetet 13.
             </p>
           </div>
         </div>

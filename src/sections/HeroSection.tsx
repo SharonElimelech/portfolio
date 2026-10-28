@@ -318,7 +318,7 @@ export default function HeroSection() {
         <div className="max-w-5xl">
           {/* Pills */}
           <div className="flex flex-wrap gap-3 mb-8">
-            {['Full-Stack Developer', 'AI Integrations', 'B.Sc. CS @ HIT', 'Shayetet 13 Veteran'].map((pill) => (
+            {['Full-Stack & AI Engineer', 'Developer @ Landly', 'B.Sc. CS @ HIT', 'Shayetet 13 Veteran'].map((pill) => (
               <span
                 key={pill}
                 className="hero-pill px-4 py-1.5 border border-crimson/40 text-crimson font-mono text-[10px] tracking-[0.2em] uppercase bg-crimson/5"
@@ -360,12 +360,12 @@ export default function HeroSection() {
           {/* Subtitle */}
           <div className="mt-8 ml-1">
             <p className="hero-subtitle font-oswald text-lg md:text-xl tracking-[0.3em] text-crimson uppercase">
-              Full-Stack Web Developer &amp; CS Student @ HIT
+              Full-Stack &amp; AI Engineer · CS Student @ HIT
             </p>
             <p className="hero-subtitle font-space text-sm md:text-base text-ash mt-3 max-w-xl leading-relaxed">
-              Third-year CS student building and deploying responsive web apps with
-              React, TypeScript and Node.js — including an AI customer-service bot
-              live in production. Discipline forged in Shayetet 13, applied to code.
+              I build full-stack products with AI inside — and make sure the AI can be
+              trusted. Developer at Landly, builder of a law firm&apos;s WhatsApp AI agent
+              and CRM, co-founder of MathGen.
             </p>
           </div>
         </div>
@@ -402,7 +402,7 @@ export default function HeroSection() {
         >
           <img
             src="/images/hero-ronin.png"
-            alt="Cyber ronin"
+            alt=""
             className="h-screen w-auto object-contain object-bottom max-md:h-[58vh]"
             style={{
               maskImage: 'linear-gradient(to right, transparent 0%, black 25%)',
@@ -428,8 +428,8 @@ export default function HeroSection() {
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {[
-            { label: 'Tech Stack', value: 'React · TypeScript · Node', icon: '◈' },
-            { label: 'AI Focus', value: 'OpenAI & Claude APIs', icon: '◉' },
+            { label: 'Tech Stack', value: 'React · Next.js · TS · Node', icon: '◈' },
+            { label: 'AI Focus', value: 'LLM agents · Claude · Gemini', icon: '◉' },
             { label: 'Education', value: 'B.Sc. CS @ HIT', icon: '◆' },
             { label: 'Based In', value: 'Gan Yavne, Israel', icon: '◇' },
           ].map((stat) => (

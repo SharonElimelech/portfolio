@@ -1,0 +1,21 @@
+# Sharon Elimelech — Full-Stack & AI Engineer
+
+> Full-stack engineer who builds products with LLMs inside and makes the AI trustworthy. Developer at Landly, B.Sc. Computer Science student at HIT, Shayetet 13 veteran. Based in Israel.
+
+## Work
+
+- Landly — Full-Stack Developer (part-time), Sep 2026 – present: consent-gated visitor-intent pipeline (Next.js, Supabase/PostgreSQL, n8n, Pipedrive).
+- Hadar Elimelech Law Office — Freelance Full-Stack Developer, Feb 2026 – present: WhatsApp AI customer-service agent in production; insolvency case-management CRM (Electron, React, SQLite, Supabase).
+
+## Projects
+
+- [WhatsApp AI Customer-Service Bot](https://github.com/SharonElimelech/whatsapp-ai-service-bot): Node.js, WhatsApp Cloud API, tool-calling LLM agent with an approved knowledge base and human escalation.
+- [JobPilot](https://github.com/SharonElimelech/jobpilot): autonomous job-search agent scoring postings with Claude structured outputs.
+- MathGen (co-founder): worksheet generator built on 101,720 AI-generated exercises, each verified by SymPy.
+
+## Contact
+
+- [CV (English)](https://sharon-elimelech.vercel.app/cv/Sharon_Elimelech_CV_EN.pdf)
+- [LinkedIn](https://www.linkedin.com/in/sharon-elimelech/)
+- [GitHub](https://github.com/SharonElimelech)
+- Email: aruitkh11@gmail.com

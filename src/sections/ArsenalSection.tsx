@@ -10,84 +10,71 @@ interface ArsenalCard {
   description: string;
   stats: { label: string; value: string }[];
   icon: string;
-  link: string;
+  link?: string;
   featured?: boolean;
 }
 
-// Projects from CV + github.com/SharonElimelech
+// Flagship work first; every number here is sourced in career-profile.md.
 const arsenalCards: ArsenalCard[] = [
   {
     title: 'WhatsApp AI Customer-Service Bot',
-    subtitle: 'In production · Node.js · Claude API',
+    subtitle: 'In production · Node.js · WhatsApp Cloud API · Claude / Gemini',
     description:
-      'Production AI bot: WhatsApp messages arrive via Meta Cloud API webhooks and are answered by an LLM constrained to an approved knowledge base, with human-callback escalation through tool-calling into Make.com. Webhook signature verification, async processing and per-customer conversation state.',
+      'A law firm needed every WhatsApp lead answered — including after hours. The agent answers 24/7 only from an approved knowledge base, hands off to the lawyer with the full transcript through tool calling, and runs the lead flow end to end. HMAC-verified webhooks, de-dup, rate limits and a multi-provider LLM chain with automatic fallback, so no lead is lost.',
     stats: [
       { label: 'Status', value: 'Live' },
-      { label: 'Stack', value: 'Node · Claude' },
+      { label: 'Availability', value: '24/7' },
     ],
     icon: '◈',
-    link: 'https://github.com/SharonElimelech',
+    link: 'https://github.com/SharonElimelech/whatsapp-ai-service-bot',
     featured: true,
   },
   {
-    title: 'Personal Portfolio',
-    subtitle: 'React · TypeScript · Vite',
+    title: 'MathGen',
+    subtitle: 'Co-founder · Astro · Cloudflare · Python · SymPy',
     description:
-      'This site — a fully responsive personal portfolio with a reusable, typed component architecture (40+ UI components), deployed to production on Vercel with automated builds from GitHub.',
+      'Worksheets for math teachers, generated from a bank of AI-written exercises that nobody has to trust blindly: SymPy verifies every answer and a person approves every batch before it merges. Private beta.',
     stats: [
-      { label: 'Components', value: '40+' },
-      { label: 'Deploy', value: 'Vercel' },
+      { label: 'Exercises', value: '101,720' },
+      { label: 'My merged PRs', value: '178' },
     ],
     icon: '◉',
-    link: 'https://github.com/SharonElimelech/portfolio',
   },
   {
-    title: 'Math Tutor App',
-    subtitle: 'PWA · JavaScript',
+    title: 'JobPilot',
+    subtitle: 'Autonomous agent · TypeScript · Claude · Supabase',
     description:
-      'A PWA for managing private lessons — students, calendar, WhatsApp payment reminders and income summaries.',
+      'Scans 4 Israeli job sources every 2 hours, scores each posting against my CV with Claude structured outputs and pings me on Telegram at 70+ — with ghost-job detection and a Next.js dashboard.',
     stats: [
-      { label: 'Type', value: 'PWA' },
-      { label: 'Stack', value: 'JS' },
+      { label: 'Sources', value: '4' },
+      { label: 'Scan', value: 'Every 2h' },
     ],
     icon: '◆',
-    link: 'https://github.com/SharonElimelech/math-tutor-app',
+    link: 'https://github.com/SharonElimelech/jobpilot',
   },
   {
-    title: 'CRM Cloud',
-    subtitle: 'Web App',
+    title: 'Insolvency Case-Management CRM',
+    subtitle: 'Electron · React · TypeScript · SQLite · Supabase',
     description:
-      'A cloud CRM web app for tracking clients and pipeline — built and deployed for real-world use.',
+      'Clients, debts, assets, payments, case pipeline, tasks and reports for a debt-relief law practice. Offline-first for sensitive legal data, with auto-backup, multi-PC sync, a one-click Windows installer and a cloud web edition.',
     stats: [
-      { label: 'Type', value: 'CRM' },
-      { label: 'Stack', value: 'Web' },
+      { label: 'Mode', value: 'Offline-first' },
+      { label: 'Ships as', value: '.exe + web' },
     ],
     icon: '◇',
     link: 'https://github.com/SharonElimelech/crm-cloud',
   },
   {
-    title: 'Business Websites',
-    subtitle: 'WordPress · HTML · CSS · JS',
+    title: 'Math Tutor App',
+    subtitle: 'PWA · JavaScript · Cloudflare Workers',
     description:
-      'Responsive business sites delivered end-to-end — UI design, content structure and deployment. Includes a polished site for a law practice.',
+      'The PWA that runs my tutoring business every day — students, lesson calendar, push reminders, WhatsApp payment messages and monthly income reports. Works offline.',
     stats: [
-      { label: 'Type', value: 'Sites' },
-      { label: 'Stack', value: 'WP' },
+      { label: 'Type', value: 'PWA' },
+      { label: 'Commits', value: '94' },
     ],
     icon: '◈',
-    link: 'https://github.com/SharonElimelech/Lawyer-web-site',
-  },
-  {
-    title: 'Bank Account Simulator',
-    subtitle: 'C++ · OOP',
-    description:
-      'A banking-system simulator applying object-oriented design — classes, inheritance and encapsulation.',
-    stats: [
-      { label: 'Type', value: 'App' },
-      { label: 'Stack', value: 'C++' },
-    ],
-    icon: '◉',
-    link: 'https://github.com/SharonElimelech/bank-simuletor',
+    link: 'https://github.com/SharonElimelech/math-tutor-app',
   },
 ];
 
@@ -206,12 +193,15 @@ export default function ArsenalSection() {
 
         {/* Bento Grid */}
         <div className="arsenal-grid grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-6xl mx-auto">
-          {arsenalCards.map((card, i) => (
-            <a
+          {arsenalCards.map((card, i) => {
+            // ponytail: typed as 'a' so the link props type-check; a private project renders as a plain div
+            const Card = (card.link ? 'a' : 'div') as 'a';
+            return (
+            <Card
               key={card.title}
               href={card.link}
-              target="_blank"
-              rel="noreferrer"
+              target={card.link ? '_blank' : undefined}
+              rel={card.link ? 'noreferrer' : undefined}
               data-cursor-hover
               className={`arsenal-card glass-heavy p-6 md:p-8 relative overflow-hidden group block ${card.featured ? 'md:col-span-2' : ''}`}
               style={{
@@ -287,8 +277,9 @@ export default function ArsenalSection() {
                   ))}
                 </div>
               </div>
-            </a>
-          ))}
+            </Card>
+            );
+          })}
         </div>
       </div>
     </section>

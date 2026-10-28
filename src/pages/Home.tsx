@@ -5,6 +5,7 @@ import CustomCursor from '../components/CustomCursor';
 import Navigation from '../components/Navigation';
 import HeroSection from '../sections/HeroSection';
 import DisciplineSection from '../sections/DisciplineSection';
+import ExperienceSection from '../sections/ExperienceSection';
 import ArsenalSection from '../sections/ArsenalSection';
 import TransmissionSection from '../sections/TransmissionSection';
 
@@ -30,6 +31,7 @@ export default function Home({ onNavigate }: HomeProps) {
       <main>
         <HeroSection />
         <DisciplineSection />
+        <ExperienceSection />
         <ArsenalSection />
         <TransmissionSection />
       </main>

@@ -5,9 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const METRICS = [
-  { label: 'Public Repos', value: 8, suffix: '', chart: 'line' },
-  { label: 'Languages', value: 5, suffix: '+', chart: 'bar' },
-  { label: 'Projects Shipped', value: 6, suffix: '+', chart: 'area' },
+  { label: 'PRs merged at Landly in my first 4 weeks', value: 20, suffix: '', chart: 'line' },
+  { label: 'AI-generated exercises verified by SymPy', value: 101720, suffix: '', chart: 'bar' },
+  { label: 'Systems in daily production use', value: 3, suffix: '', chart: 'area' },
 ];
 
 const SOCIAL_LINKS = [
@@ -113,7 +113,8 @@ function MiniChart({ type, active }: { type: string; active: boolean }) {
 export default function TransmissionSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const hologramRef = useRef<HTMLDivElement>(null);
-  const [counts, setCounts] = useState<number[]>(METRICS.map(() => 0));
+  // Start at the real values so they show even if the scroll animation never runs.
+  const [counts, setCounts] = useState<number[]>(METRICS.map((m) => m.value));
   const [hoveredMetric, setHoveredMetric] = useState<number | null>(null);
 
   useEffect(() => {
@@ -150,8 +151,8 @@ export default function TransmissionSection() {
             start: 'top 85%',
             toggleActions: 'play none none reverse',
           },
-          onComplete: () => {
-            // Animate count-up
+          onStart: () => {
+            // Count up while the cards fade in
             METRICS.forEach((metric, i) => {
               const obj = { val: 0 };
               gsap.to(obj, {
@@ -222,11 +223,11 @@ export default function TransmissionSection() {
           {/* Left: Metrics Dashboard */}
           <div>
             <h2 className="font-oswald text-4xl md:text-5xl text-ghost mb-4">
-              Stats Defining<br />
-              <span className="text-crimson">the Developer</span>
+              Numbers Behind<br />
+              <span className="text-crimson">the Work</span>
             </h2>
             <p className="font-space text-ash text-sm mb-10 max-w-md">
-              Every metric is a testament to dedication, precision, and relentless pursuit of excellence.
+              Every number here is real — ask me about any of them.
             </p>
 
             <div className="metrics-grid space-y-4">
@@ -245,7 +246,7 @@ export default function TransmissionSection() {
                       </span>
                     </div>
                     <div className="font-oswald text-3xl md:text-4xl text-ghost group-hover:text-crimson transition-colors duration-300">
-                      {counts[i]}{metric.suffix}
+                      {counts[i].toLocaleString('en-US')}{metric.suffix}
                     </div>
                     <MiniChart type={metric.chart} active={hoveredMetric === i} />
                   </div>
@@ -314,13 +315,14 @@ export default function TransmissionSection() {
                       <div className="text-ash mb-1">Connected to development environment...</div>
                       <div className="text-ash mb-4">Authentication verified. Welcome, Sharon.</div>
                       <div className="text-crimson/60">$ ls -la /projects</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  landly/</div>
                       <div className="text-ghost/40 ml-4">drwxr-xr-x  whatsapp-ai-bot/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  portfolio/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  math-tutor-app/</div>
-                      <div className="text-ghost/40 ml-4">drwxr-xr-x  bank-simulator/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  insolvency-crm/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  mathgen/</div>
+                      <div className="text-ghost/40 ml-4">drwxr-xr-x  jobpilot/</div>
                       <div className="mt-4 text-crimson/60">$ cat mission.txt</div>
                       <div className="text-ghost/50 ml-4 mt-2 max-w-xs">
-                        Full-stack web, AI integrations, shipped to production.
+                        Full-stack products with AI inside, verified before they ship.
                         Discipline from Shayetet 13, applied to code.
                       </div>
                       <div className="mt-4 text-crimson animate-pulse">_</div>
@@ -358,7 +360,7 @@ export default function TransmissionSection() {
         <div className="cta-block text-center">
           <div className="inline-block">
             <p className="font-space text-ash text-sm mb-8">
-              Open to student / junior full-stack developer roles. Let&apos;s talk.
+              Building something with AI inside? Let&apos;s talk.
             </p>
             <a
               href="mailto:aruitkh11@gmail.com"
@@ -395,6 +397,13 @@ export default function TransmissionSection() {
               </a>
               <span className="text-ash/30">·</span>
               <span>Gan Yavne, Israel</span>
+              <span className="text-ash/30">·</span>
+              <a href="/cv/Sharon_Elimelech_CV_EN.pdf" target="_blank" rel="noreferrer" className="text-crimson hover:text-ghost transition-colors duration-300" data-cursor-hover>
+                CV (EN)
+              </a>
+              <a href="/cv/Sharon_Elimelech_CV_HE.pdf" target="_blank" rel="noreferrer" className="text-crimson hover:text-ghost transition-colors duration-300" data-cursor-hover>
+                CV (HE)
+              </a>
             </div>
           </div>
 

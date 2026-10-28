@@ -7,6 +7,7 @@ interface NavigationProps {
 
 const NAV_ITEMS = [
   { label: 'DISCIPLINE', target: '#discipline' },
+  { label: 'EXPERIENCE', target: '#experience' },
   { label: 'ARSENAL', target: '#arsenal' },
   { label: 'TRANSMISSION', target: '#transmission' },
 ];
@@ -62,6 +63,7 @@ export default function Navigation({ onNavigate }: NavigationProps) {
       <a
         href="#hero"
         onClick={(e) => handleClick(e, '#hero')}
+        aria-label="Sharon Elimelech — back to top"
         className="flex items-center gap-3 group"
         data-cursor-hover
       >
@@ -89,16 +91,28 @@ export default function Navigation({ onNavigate }: NavigationProps) {
         ))}
       </div>
 
-      {/* Desktop CTA Button */}
-      <a
-        href="#transmission"
-        onClick={(e) => handleClick(e, '#transmission')}
-        className="hidden md:inline-flex relative px-6 py-2.5 border border-crimson text-crimson font-mono text-[11px] tracking-[0.15em] hover:bg-crimson hover:text-black"
-        data-cursor-hover
-        style={{ transitionDuration: '0.2s' }}
-      >
-        MAKE CONTACT
-      </a>
+      {/* Desktop CV + CTA */}
+      <div className="hidden md:flex items-center gap-3">
+        <a
+          href="/cv/Sharon_Elimelech_CV_EN.pdf"
+          target="_blank"
+          rel="noreferrer"
+          className="relative px-5 py-2.5 border border-crimson bg-crimson text-black font-mono text-[11px] tracking-[0.15em] hover:bg-transparent hover:text-crimson"
+          data-cursor-hover
+          style={{ transitionDuration: '0.2s' }}
+        >
+          CV ↓
+        </a>
+        <a
+          href="#transmission"
+          onClick={(e) => handleClick(e, '#transmission')}
+          className="inline-flex relative px-6 py-2.5 border border-crimson text-crimson font-mono text-[11px] tracking-[0.15em] hover:bg-crimson hover:text-black"
+          data-cursor-hover
+          style={{ transitionDuration: '0.2s' }}
+        >
+          MAKE CONTACT
+        </a>
+      </div>
 
       {/* Mobile hamburger */}
       <button
@@ -149,6 +163,14 @@ export default function Navigation({ onNavigate }: NavigationProps) {
           className="mt-4 px-8 py-3 border border-crimson text-crimson font-mono text-xs tracking-[0.2em]"
         >
           MAKE CONTACT
+        </a>
+        <a
+          href="/cv/Sharon_Elimelech_CV_EN.pdf"
+          target="_blank"
+          rel="noreferrer"
+          className="px-8 py-3 bg-crimson text-black font-mono text-xs tracking-[0.2em]"
+        >
+          DOWNLOAD CV
         </a>
       </div>
     </nav>
