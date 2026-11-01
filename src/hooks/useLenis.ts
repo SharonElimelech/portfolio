@@ -32,8 +32,14 @@ export function useLenis() {
 
     // Framer Motion's useScroll reads window.scrollY (which Lenis updates) but
     // listens for the native 'scroll' event — dispatch one on every Lenis tick.
+    // Lenis itself listens to native 'scroll' and re-emits it, so guard against
+    // re-entry or scrollbar/keyboard/anchor scrolls recurse until the stack overflows.
+    let relaying = false;
     lenis.on('scroll', () => {
+      if (relaying) return;
+      relaying = true;
       window.dispatchEvent(new Event('scroll'));
+      relaying = false;
     });
 
     // Drive Lenis from GSAP's ticker (single RAF source for the whole app).
