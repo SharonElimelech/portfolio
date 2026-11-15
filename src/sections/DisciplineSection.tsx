@@ -295,6 +295,7 @@ export default function DisciplineSection() {
               PostgreSQL behind it, with LLM agents wired into real products — kept
               honest by knowledge-base limits, structured outputs and automatic
               verification. Discipline and accountability carried over from Shayetet 13.
+              Available full-time for junior and student roles.
             </p>
           </div>
         </div>

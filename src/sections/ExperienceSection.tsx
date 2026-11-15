@@ -12,7 +12,7 @@ const ROLES = [
     ],
   },
   {
-    company: 'Hadar Elimelech Law Office',
+    company: 'Law Firm (client)',
     role: 'Full-Stack Developer · Freelance',
     period: 'Feb 2026 — Present',
     context: 'Sole developer of the firm’s client-intake and case-management systems',
